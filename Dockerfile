@@ -1,14 +1,17 @@
-FROM python:3.13-slim-bookworm
+FROM python:3.12-slim
 
 WORKDIR /app
 
-ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST=0.0.0.0
+COPY requirements.txt .
 
-COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+COPY backend backend
+COPY templates templates
 
-COPY . .
-CMD ["flask", "run"]
+ENV PYTHONPATH=/app
+ENV FLASK_ENV=production
+
+EXPOSE 8000
+
+CMD ["python", "-m", "backend.app"]

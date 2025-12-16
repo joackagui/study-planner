@@ -5,7 +5,6 @@ def test_index_route():
     resp = client.get("/")
     assert resp.status_code == 200
 
-
 def test_chat_requires_message():
     client = app.test_client()
     resp = client.post("/api/chat", json={})
